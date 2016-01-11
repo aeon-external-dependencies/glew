@@ -45,6 +45,11 @@ if (MSVC)
     add_definitions (-D_CRT_SECURE_NO_WARNINGS)
 endif ()
 
+if (APPLE)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wdeprecated-declarations")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wdeprecated-declarations")
+endif ()
+
 #include_directories (${GLEW_DIR}/include)
 
 add_library (glew SHARED ${GLEW_DIR}/src/glew.c)
