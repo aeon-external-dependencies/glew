@@ -41,6 +41,10 @@ set (GLEW_LIBRARIES ${OPENGL_LIBRARIES})
 
 add_definitions (-DGLEW_NO_GLU)
 
+if (MSVC)
+    add_definitions (-D_CRT_SECURE_NO_WARNINGS)
+endif ()
+
 #include_directories (${GLEW_DIR}/include)
 
 add_library (glew SHARED ${GLEW_DIR}/src/glew.c)
