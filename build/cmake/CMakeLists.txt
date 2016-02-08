@@ -52,52 +52,57 @@ endif ()
 
 #include_directories (${GLEW_DIR}/include)
 
-add_library (glew SHARED ${GLEW_DIR}/src/glew.c)
-set_target_properties (glew PROPERTIES COMPILE_DEFINITIONS "GLEW_BUILD" OUTPUT_NAME "${GLEW_LIB_NAME}" PREFIX "${DLL_PREFIX}")
-target_include_directories (glew PUBLIC ${GLEW_DIR}/include)
-set_target_properties(glew PROPERTIES
-                      FOLDER "External/GLEW")
+#add_library (glew SHARED ${GLEW_DIR}/src/glew.c)
+#set_target_properties (glew PROPERTIES COMPILE_DEFINITIONS "GLEW_BUILD" OUTPUT_NAME "${GLEW_LIB_NAME}" PREFIX "${DLL_PREFIX}")
+#target_include_directories (glew PUBLIC ${GLEW_DIR}/include)
+#set_target_properties(glew PROPERTIES
+#                      FOLDER "External/GLEW")
+#target_link_libraries (glew ${GLEW_LIBRARIES})
+
 add_library (glew_s STATIC ${GLEW_DIR}/src/glew.c)
 target_include_directories (glew_s PUBLIC ${GLEW_DIR}/include)
 set_target_properties(glew_s PROPERTIES
                       FOLDER "External/GLEW")
 set_target_properties (glew_s PROPERTIES COMPILE_DEFINITIONS "GLEW_STATIC" OUTPUT_NAME "${GLEW_LIB_NAME}" PREFIX lib)
-target_link_libraries (glew ${GLEW_LIBRARIES})
 target_link_libraries (glew_s ${GLEW_LIBRARIES})
 
-add_library(glewmx SHARED ${GLEW_DIR}/src/glew.c )
-target_include_directories (glewmx PUBLIC ${GLEW_DIR}/include)
-set_target_properties(glewmx PROPERTIES
-                      FOLDER "External/GLEW")
-set_target_properties (glewmx PROPERTIES COMPILE_DEFINITIONS "GLEW_BUILD;GLEW_MX" OUTPUT_NAME "${GLEW_LIB_NAME}mx" PREFIX "${DLL_PREFIX}")
-add_library(glewmx_s STATIC ${GLEW_DIR}/src/glew.c )
-target_include_directories (glewmx_s PUBLIC ${GLEW_DIR}/include)
-set_target_properties(glewmx_s PROPERTIES
-                      FOLDER "External/GLEW")
-set_target_properties (glewmx_s PROPERTIES COMPILE_DEFINITIONS "GLEW_STATIC;GLEW_MX" OUTPUT_NAME "${GLEW_LIB_NAME}mx" PREFIX lib)
-target_link_libraries (glewmx ${GLEW_LIBRARIES})
-target_link_libraries (glewmx_s ${GLEW_LIBRARIES})
+#add_library(glewmx SHARED ${GLEW_DIR}/src/glew.c )
+#target_include_directories (glewmx PUBLIC ${GLEW_DIR}/include)
+#set_target_properties(glewmx PROPERTIES
+#                      FOLDER "External/GLEW")
+#set_target_properties (glewmx PROPERTIES COMPILE_DEFINITIONS "GLEW_BUILD;GLEW_MX" OUTPUT_NAME "${GLEW_LIB_NAME}mx" PREFIX "${DLL_PREFIX}")
+#target_link_libraries (glewmx ${GLEW_LIBRARIES})
+
+#add_library(glewmx_s STATIC ${GLEW_DIR}/src/glew.c )
+#target_include_directories (glewmx_s PUBLIC ${GLEW_DIR}/include)
+#set_target_properties(glewmx_s PROPERTIES
+#                      FOLDER "External/GLEW")
+#set_target_properties (glewmx_s PROPERTIES COMPILE_DEFINITIONS "GLEW_STATIC;GLEW_MX" OUTPUT_NAME "${GLEW_LIB_NAME}mx" PREFIX lib)
+#target_link_libraries (glewmx_s ${GLEW_LIBRARIES})
 
 if(CMAKE_VERSION VERSION_LESS 2.8.12)
   set(MAYBE_EXPORT "")
 else()
   target_compile_definitions(glew_s INTERFACE "GLEW_STATIC")
-  target_compile_definitions(glewmx INTERFACE "GLEW_MX")
-  target_compile_definitions(glewmx_s INTERFACE "GLEW_STATIC;GLEW_MX")
-  foreach(t glew glew_s glewmx glewmx_s)
+  #target_compile_definitions(glewmx INTERFACE "GLEW_MX")
+  #target_compile_definitions(glewmx_s INTERFACE "GLEW_STATIC;GLEW_MX")
+  #foreach(t glew glew_s glewmx glewmx_s)
+  foreach(t glew_s)
     target_include_directories(${t} PUBLIC $<INSTALL_INTERFACE:include>)
   endforeach()
   set(MAYBE_EXPORT EXPORT glew-targets)
 endif()
 
-set(targets_to_install "")
-if(NOT DEFINED BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
-  list(APPEND targets_to_install glew glewmx)
-endif()
+#set(targets_to_install "")
+#if(NOT DEFINED BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
+#  list(APPEND targets_to_install glew glewmx)
+#endif()
 
-if(NOT DEFINED BUILD_SHARED_LIBS OR NOT BUILD_SHARED_LIBS)
-  list(APPEND targets_to_install glew_s glewmx_s)
-endif()
+#if(NOT DEFINED BUILD_SHARED_LIBS OR NOT BUILD_SHARED_LIBS)
+#  list(APPEND targets_to_install glew_s glewmx_s)
+#endif()
+
+set(targets_to_install glew_s)
 
 install ( TARGETS ${targets_to_install}
           ${MAYBE_EXPORT}
