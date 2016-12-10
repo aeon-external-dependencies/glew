@@ -144,11 +144,10 @@ configure_file (${GLEW_DIR}/glew.pc.in ${GLEW_DIR}/glewmx.pc @ONLY)
 #        DESTINATION lib/pkgconfig
 #)
 
-#install (FILES
-#    ${GLEW_DIR}/include/GL/wglew.h
-#    ${GLEW_DIR}/include/GL/glew.h
-#    ${GLEW_DIR}/include/GL/glxew.h
-#    DESTINATION include/GL)
+install(
+    DIRECTORY ../../include/
+    DESTINATION include
+)
 
 #if(MAYBE_EXPORT)
 #  install(EXPORT glew-targets DESTINATION lib/cmake/glew
